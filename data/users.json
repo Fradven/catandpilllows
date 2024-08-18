@@ -1,0 +1,12 @@
+[
+  {
+    "id": "fe1221cee23eb1ecb665e81969f1c819",
+    "email": "a@a.com",
+    "password": "$2b$10$YBpDbPe290njF2sKv6sAFOlRqfkWgBeiq.eyPF/bsQTDSZzHlgbay"
+  },
+  {
+    "id": "89f416f9ce4f4c10efd4a2dd4f097710",
+    "email": "test@test.be",
+    "password": "$2b$10$XyHMnK/z0Bb09M3ibUM/A.0pNT7a6pRFuYy9EIInYyvaF6IGoIG/a"
+  }
+]
