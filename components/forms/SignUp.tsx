@@ -23,7 +23,7 @@ const SignUp = ({ onSignUpSuccess }: { onSignUpSuccess: () => void }) => {
             setError("Passwords do not match.");
             return;
         }
-        setError(''); // Clear any previous errors
+        setError('');
 
         try {
             const response = await fetch('/api/signup', {
@@ -33,10 +33,10 @@ const SignUp = ({ onSignUpSuccess }: { onSignUpSuccess: () => void }) => {
             });
             const data = await response.json();
             if (response.ok) {
-                setEmail(''); // Clear email input
-                setPassword(''); // Clear password input
-                setConfirmPassword(''); // Clear confirm password input
-                onSignUpSuccess(); // Notify parent to switch tab
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+                onSignUpSuccess();
             } else {
                 setError(data.message || 'An error occurred');
             }

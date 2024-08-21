@@ -3,7 +3,7 @@ import SignUp from "@/components/forms/SignUp";
 import Login from "@/components/forms/Login";
 import { Tab, Tabs } from "@nextui-org/tabs";
 
-const LoginAndSignUpForm = () => {
+const LoginAndSignUpForm = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
     const [activeTab, setActiveTab] = useState("signUp");
 
     const handleSignUpSuccess = () => {
@@ -20,7 +20,7 @@ const LoginAndSignUpForm = () => {
                     onSelectionChange={(key) => setActiveTab(key)}
                 >
                     <Tab key={"login"} title={"Login"}>
-                        <Login />
+                        <Login onLoginSuccess={onLoginSuccess} />
                     </Tab>
                     <Tab key={"signUp"} title={"Sign Up"}>
                         <SignUp onSignUpSuccess={handleSignUpSuccess} />
