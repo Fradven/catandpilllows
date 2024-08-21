@@ -1,21 +1,45 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import LoginAndSignUpForm from "@/components/sections/LoginAndSignUpForm";
 import HomeDescription from "@/components/sections/HomeDescription";
+import MainPage from "@/components/sections/MainPage";
 
 export default function Home() {
-  return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <Head>
-        <title>Cat & Pillows</title>
-        <link rel="icon" href="/images/logo/favicon.png" />
-      </Head>
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-      <HomeDescription />
+    useEffect(() => {
+        const loggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+        setIsLoggedIn(loggedIn);
+    }, []);
 
-      <aside
-        style={{ width: "400px", display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
-        <LoginAndSignUpForm />
-      </aside>
-    </div>
-  );
+    const handleLoginSuccess = () => {
+        setIsLoggedIn(true);
+    };
+    return (
+        <div style={{ display: "flex", height: "100vh" }}>
+            <Head>
+                <title>Cat & Pillows</title>
+                <link rel="icon" href="/images/logo/favicon.png" />
+            </Head>
+
+            {isLoggedIn ? (
+                <MainPage />
+            ) : (
+                <>
+                    <HomeDescription />
+
+                    <aside
+                        style={{
+                            width: "400px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            height: "100%"
+                        }}>
+                        <LoginAndSignUpForm onLoginSuccess={handleLoginSuccess} />
+                    </aside>
+                </>
+            )}
+        </div>
+    );
 }
