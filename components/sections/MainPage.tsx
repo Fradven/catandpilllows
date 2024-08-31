@@ -94,7 +94,7 @@ const MainPage = () => {
             ) : cycles.length === 0 ? (
                 <MainPageFirstCycleForm userId={userId} cycleHandler={handleAddCycle} />
             ) : (
-                <CycleStats userId={userId} onCycleCreated={handleAddCycle} />
+                <CycleStats userId={userId ?? ""} onCycleCreated={handleAddCycle} />
             )}
 
             {trackingCycle && (

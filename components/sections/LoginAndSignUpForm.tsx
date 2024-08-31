@@ -17,7 +17,7 @@ const LoginAndSignUpForm = ({ onLoginSuccess }: { onLoginSuccess: () => void }) 
                 <Tabs
                     aria-label="authentication forms"
                     selectedKey={activeTab}
-                    onSelectionChange={(key) => setActiveTab(key)}
+                    onSelectionChange={(key) => setActiveTab(key as string)}
                 >
                     <Tab key={"login"} title={"Login"}>
                         <Login onLoginSuccess={onLoginSuccess} />
