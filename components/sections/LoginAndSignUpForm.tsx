@@ -4,7 +4,7 @@ import Login from "@/components/forms/Login";
 import { Tab, Tabs } from "@nextui-org/tabs";
 
 const LoginAndSignUpForm = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
-    const [activeTab, setActiveTab] = useState("signUp");
+    const [activeTab, setActiveTab] = useState("login");
 
     const handleSignUpSuccess = () => {
         setActiveTab("login");

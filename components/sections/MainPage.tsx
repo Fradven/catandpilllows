@@ -1,7 +1,14 @@
+import { ReactNode } from "react";
+import MainLayout from "@/layouts/MainLayout";
+
 const MainPage = () => {
-  return (
-      <h1>Hello</h1>
-  );
-}
+    return (
+        <MainLayout>
+            <h1>Hello</h1>
+        </MainLayout>
+    );
+};
+
+// MainPage.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>;
 
 export default MainPage;
