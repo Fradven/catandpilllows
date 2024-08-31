@@ -13,7 +13,7 @@ const Navbar = () => {
     };
 
     return (
-        <header className="bg-catDarkBurgundy text-catLightCream p-4">
+        <header className="bg-catTaupe text-catLightCream p-4">
             <nav className="flex justify-between items-center">
                 {/* Logo on the left */}
                 <h1 className="text-2xl font-bold">
@@ -44,7 +44,7 @@ const Navbar = () => {
                 {/* Logout button on the right */}
                 <button
                     onClick={handleLogout}
-                    className="bg-catLightCream hover:bg-catBrown text-catDarkMauve font-bold py-2 px-4 rounded"
+                    className="bg-catLightCream hover:bg-catBrown text-catBrown font-bold py-2 px-4 rounded"
                 >
                     Logout
                 </button>

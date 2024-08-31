@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { API_ROUTE_CYCLE } from "@/components/contantes";
+import { API_ROUTE_CYCLE } from "@/components/utils/contantes";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = req.query;

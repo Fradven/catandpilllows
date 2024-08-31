@@ -2,6 +2,8 @@ import { Input } from "@nextui-org/input";
 import { Spacer } from "@nextui-org/spacer";
 import { Button } from "@nextui-org/button";
 import React, { useState } from "react";
+import { API_ENDPOINTS, MESSAGES } from "@/components/utils/contantes";
+import { SessionService } from "@/components/services/sessionService";
 
 const Login = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
     const [email, setEmail] = useState('');
@@ -17,20 +19,21 @@ const Login = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
         setError('');
 
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch(API_ENDPOINTS.LOGIN, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
             const data = await response.json();
             if (response.ok) {
-                sessionStorage.setItem('isLoggedIn', 'true');
+                SessionService.setLoggedIn(true);
+                SessionService.setUserId(data.userId);
                 onLoginSuccess();
             } else {
-                setError(data.message || 'An error occurred');
+                setError(data.message || MESSAGES.LOGIN_FAILED);
             }
         } catch (error) {
-            setError('Failed to log in');
+            setError(MESSAGES.LOGIN_FAILED);
         }
     };
 
