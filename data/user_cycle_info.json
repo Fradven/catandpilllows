@@ -4,5 +4,11 @@
     "userId": "394b1e9f17ba20ab5194563b34e43bc7",
     "avgCycleDays": 28,
     "avgPeriodDays": 5
+  },
+  {
+    "id": 2,
+    "userId": "394",
+    "avgCycleDays": 28,
+    "avgPeriodDays": 5
   }
 ]

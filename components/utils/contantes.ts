@@ -13,6 +13,8 @@ export const API_ENDPOINTS = {
     ADD_CYCLE: '/api/addCycle',
     GET_USER_CYCLE_INFO: '/api/getUserCycleInfo',
     UPDATE_USER_CYCLE_INFO: '/api/updateUserCycleInfo',
+    UPDATE_CYCLE: '/api/endCycle',
+    RECALCULATE_AVERAGES: '/api/recalculateAverages',
 };
 
 export const MESSAGES = {
