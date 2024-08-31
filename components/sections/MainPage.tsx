@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import MainLayout from "@/layouts/MainLayout";
-import { SessionService } from "@/components/services/sessionService";
+import { SessionService } from "@/services/sessionService";
 import { API_ENDPOINTS, MESSAGES } from "@/components/utils/contantes";
 import { Spinner } from "@nextui-org/spinner";
 import MainPageFirstCycleForm from "@/components/sections/MainPageFirstCycleForm";
+import CycleStats from "@/components/sections/CycleStats";
 
 const MainPage = () => {
     const [userId, setUserId] = useState<string | null>();
@@ -16,7 +17,7 @@ const MainPage = () => {
         } else {
             setLoading(false);
         }
-    }, []);
+    }, [userId]);
 
     const fetchCycles = async (userId: string) => {
         try {
@@ -45,16 +46,13 @@ const MainPage = () => {
         </div>;
     }
 
+
     return (
         <MainLayout>
             {cycles.length === 0 ? (
                 <MainPageFirstCycleForm userId={userId} cycleHandler={handleAddCycle} />
             ) : (
-                <div>
-                    <h2>Your Cycle Stats</h2>
-                    {/* Placeholder for the stats component */}
-                    <p>Stats component will go here...</p>
-                </div>
+                <CycleStats userId={userId as string} />
             )}
         </MainLayout>
     );

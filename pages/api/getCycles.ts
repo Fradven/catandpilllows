@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
 import path from "path";
+import Cycle from "@/components/classes/Cycle";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
@@ -17,6 +18,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         cycles = JSON.parse(fileData);
     }
 
-    const userCycles = cycles.filter((cycle: any) => cycle.userId === Number(userId));
+    const userCycles = cycles.filter((cycle: Cycle) => cycle.userId === userId);
     res.status(200).json(userCycles);
 }

@@ -1,0 +1,99 @@
+import { useEffect, useState } from 'react';
+import { UserCycleService } from '@/services/userCycleService';
+import { Spinner } from '@nextui-org/spinner';
+import { Button } from "@nextui-org/button";
+import { API_ENDPOINTS } from "@/components/utils/contantes";
+import dayjs from 'dayjs';
+
+interface Props {
+    userId: string;
+}
+
+const CycleStats = ({ userId }: Props) => {
+    const [loading, setLoading] = useState(true);
+    const [userCycleInfo, setUserCycleInfo] = useState<any>(null);
+    const [latestCycle, setLatestCycle] = useState<any>(null);
+    const [daysLeft, setDaysLeft] = useState<number | null>(null);
+
+    useEffect(() => {
+        const fetchCycleData = async () => {
+            try {
+                const userCycle = await UserCycleService.getUserCycleInfos(parseInt(userId));
+                setUserCycleInfo(userCycle);
+
+                const response = await fetch(`${API_ENDPOINTS.GET_CYCLES}?userId=${userId}`);
+                const cycles = await response.json();
+
+                if (cycles.length > 0) {
+                    const latest = cycles[cycles.length - 1];
+                    setLatestCycle(latest);
+
+                    if (latest.dateEnd) {
+                        const endDate = dayjs(latest.dateEnd);
+                        const daysUntilNextCycle = userCycle.avgCycleDays - dayjs().diff(endDate, 'day');
+                        setDaysLeft(daysUntilNextCycle);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch cycle data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCycleData();
+    }, [userId]);
+
+    if (loading) {
+        return <div className="w-full h-full flex justify-center items-center">
+            <Spinner
+                size="lg"
+                color="warning"
+                label="Fetching your data..."
+                labelColor="warning"
+            />
+        </div>;
+    }
+
+    if (!latestCycle || !latestCycle.dateEnd) {
+        return <div>Placeholder for a different state when no end date is found...</div>;
+    }
+
+    return (
+        <div className="flex flex-col items-center space-y-6 p-6 bg-white rounded-md shadow-lg w-full max-w-lg mx-auto">
+            <h2 className="text-3xl font-semibold mb-4">Your Cycle Stats</h2>
+
+            <div className="text-center">
+                <p className="text-lg">Last period ended on: <span className="font-bold">{dayjs(latestCycle.dateEnd).format('MMMM D, YYYY')}</span></p>
+                <p className="text-4xl font-bold my-4">{daysLeft} days left</p>
+
+                <div className="w-full bg-gray-200 rounded-full h-4">
+                    {daysLeft && (<div
+                        className="bg-indigo-600 h-4 rounded-full"
+                        style={{ width: `${(daysLeft / userCycleInfo.avgCycleDays) * 100}%` }}
+                    />)}
+                </div>
+            </div>
+
+            <div className="flex justify-around w-full mt-4">
+                <div className="text-center">
+                    <p className="text-lg">Avg Cycle Days</p>
+                    <p className="text-xl font-bold">{userCycleInfo.avgCycleDays}</p>
+                </div>
+                <div className="text-center">
+                    <p className="text-lg">Avg Period Days</p>
+                    <p className="text-xl font-bold">{userCycleInfo.avgPeriodDays}</p>
+                </div>
+            </div>
+
+            <Button
+                onClick={() => console.log('Start new period')}
+                className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg mt-4"
+            >
+                Start New Period
+            </Button>
+        </div>
+    );
+};
+
+export default CycleStats;

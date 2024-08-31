@@ -1,11 +1,11 @@
 /* eslint-disable */
 class Cycle {
   id: number;
-  userId: number;
+  userId: string;
   dateStart: Date;
   dateEnd: Date;
 
-  constructor(id: number, userId: number, dateStart: Date, dateEnd: Date) {
+  constructor(id: number, userId: string, dateStart: Date, dateEnd: Date) {
     this.id = id;
     this.userId = userId;
     this.dateStart = dateStart;

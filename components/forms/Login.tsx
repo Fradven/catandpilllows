@@ -3,7 +3,7 @@ import { Spacer } from "@nextui-org/spacer";
 import { Button } from "@nextui-org/button";
 import React, { useState } from "react";
 import { API_ENDPOINTS, MESSAGES } from "@/components/utils/contantes";
-import { SessionService } from "@/components/services/sessionService";
+import { SessionService } from "@/services/sessionService";
 
 const Login = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
     const [email, setEmail] = useState('');
