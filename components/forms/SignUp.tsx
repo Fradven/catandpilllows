@@ -46,7 +46,7 @@ const SignUp = ({ onSignUpSuccess }: { onSignUpSuccess: () => void }) => {
     };
 
     return (
-        <div>
+        <form onKeyDown={handleSignUp}>
             <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" fullWidth />
             <Spacer y={1} />
 
@@ -85,11 +85,11 @@ const SignUp = ({ onSignUpSuccess }: { onSignUpSuccess: () => void }) => {
                 fullWidth />
             <Spacer y={1} />
 
-            <Button color="primary" className="w-full text-center" onClick={handleSignUp}>
+            <Button color="primary" className="w-full text-center bg-catDarkBurgundy mt-2" onClick={handleSignUp}>
                 Sign Up
             </Button>
             {error && <p className="mt-4 text-sm text-center text-red-500 bg-red-100 p-2 rounded-md">{error}</p>}
-        </div>
+        </form>
     );
 };
 

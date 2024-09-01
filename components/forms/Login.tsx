@@ -37,8 +37,17 @@ const Login = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
         }
     };
 
+    const isFormValid = email !== '' && password !== '';
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+        if (e.key === 'Enter' && isFormValid) {
+            e.preventDefault(); // Prevent form submission
+            handleLogin();
+        }
+    };
+
     return (
-        <div>
+        <form onKeyDown={handleKeyDown}>
             <Input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -47,7 +56,7 @@ const Login = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
             />
             <Spacer y={1} />
             <Input
-                type={"password"}
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
@@ -56,13 +65,14 @@ const Login = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
             <Spacer y={1} />
             <Button
                 color="primary"
-                className="w-full text-center"
+                className="w-full text-center bg-catDarkBurgundy mt-2"
                 onClick={handleLogin}
+                disabled={!isFormValid} // Disable button if form is not valid
             >
                 Login
             </Button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-        </div>
+        </form>
     );
 };
 
