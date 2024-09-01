@@ -9,7 +9,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const { userId, dateStart, dateEnd } = req.body;
 
-    if (!userId || !dateStart || !dateEnd) {
+    if (!userId || !dateStart) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -25,7 +25,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         id: cycles.length > 0 ? cycles[cycles.length - 1].id + 1 : 1,
         userId: userId,
         dateStart: new Date(dateStart),
-        dateEnd: new Date(dateEnd),
+        dateEnd: dateEnd ? new Date(dateEnd) : null,
     };
 
     cycles.push(newCycle);

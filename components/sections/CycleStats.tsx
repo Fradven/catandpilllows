@@ -14,7 +14,7 @@ const CycleStats = ({ userId, onCycleCreated }: Props) => {
     const [loading, setLoading] = useState(true);
     const [userCycleInfo, setUserCycleInfo] = useState<any>(null);
     const [latestCycle, setLatestCycle] = useState<any>(null);
-    const [daysLeft, setDaysLeft] = useState<number | null>(null);
+    const [daysPassed, setDaysPassed] = useState<number | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleStartNewPeriod = async (dateStart: Date) => {
@@ -41,8 +41,8 @@ const CycleStats = ({ userId, onCycleCreated }: Props) => {
 
                     if (latest.dateEnd) {
                         const endDate = dayjs(latest.dateEnd);
-                        const daysUntilNextCycle = userCycle.avgCycleDays - dayjs().diff(endDate, 'day');
-                        setDaysLeft(daysUntilNextCycle);
+                        const daysSinceEnd = dayjs().diff(endDate, 'day');
+                        setDaysPassed(daysSinceEnd);
                     }
                 }
             } catch (error) {
@@ -68,35 +68,32 @@ const CycleStats = ({ userId, onCycleCreated }: Props) => {
         );
     }
 
-    if (!latestCycle || !latestCycle.dateEnd) {
-        return <div>Placeholder for a different state when no end date is found...</div>;
-    }
+    const daysLeft = userCycleInfo ? userCycleInfo.avgCycleDays - (daysPassed ?? 0) : 0;
+    const progressWidth = userCycleInfo ? ((daysPassed ?? 0) / userCycleInfo.avgCycleDays) * 100 : 0;
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] bg-white w-full">
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] w-full">
             <div className="flex flex-col items-center space-y-6 p-6 rounded-md shadow-lg w-full max-w-lg mx-auto">
-                <h2 className="text-3xl font-semibold mb-4">Your Cycle Stats</h2>
-
                 <div className="text-center">
                     <p className="text-lg">Last period ended on: <span className="font-bold">{dayjs(latestCycle.dateEnd).format('MMMM D, YYYY')}</span></p>
                     <p className="text-4xl font-bold my-4">{daysLeft} days left</p>
 
                     <div className="w-full bg-gray-200 rounded-full h-4">
-                        {daysLeft && (<div
+                        <div
                             className="bg-indigo-600 h-4 rounded-full"
-                            style={{ width: `${(daysLeft / userCycleInfo.avgCycleDays) * 100}%` }}
-                        />)}
+                            style={{ width: `${progressWidth > 100 ? 100 : progressWidth}%` }}
+                        />
                     </div>
                 </div>
 
                 <div className="flex justify-around w-full mt-4">
                     <div className="text-center">
                         <p className="text-lg">Avg Cycle Days</p>
-                        <p className="text-xl font-bold">{userCycleInfo.avgCycleDays}</p>
+                        <p className="text-xl font-bold">{userCycleInfo?.avgCycleDays}</p>
                     </div>
                     <div className="text-center">
                         <p className="text-lg">Avg Period Days</p>
-                        <p className="text-xl font-bold">{userCycleInfo.avgPeriodDays}</p>
+                        <p className="text-xl font-bold">{userCycleInfo?.avgPeriodDays}</p>
                     </div>
                 </div>
 

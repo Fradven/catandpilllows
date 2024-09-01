@@ -27,21 +27,35 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         userCycleInfos = JSON.parse(fileData);
     }
 
-    const userCycles = cycles.filter(cycle => cycle.userId === userId && cycle.dateEnd);
+    // Filter out cycles for the user and sort them by start date
+    const userCycles = cycles
+        .filter(cycle => cycle.userId === userId && cycle.dateEnd)
+        .sort((a, b) => new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime());
 
     if (userCycles.length === 0) {
         return res.status(400).json({ message: "No completed cycles found for this user" });
     }
 
-    const avgCycleDays = userCycles.reduce((acc, cycle) => acc + (new Date(cycle.dateEnd).getTime() - new Date(cycle.dateStart).getTime()) / (1000 * 3600 * 24), 0) / userCycles.length;
+    // Calculate the average days between end of one cycle and start of the next cycle
+    let totalCycleDays = 0;
+    for (let i = 0; i < userCycles.length - 1; i++) {
+        const endDate = new Date(userCycles[i].dateEnd).getTime();
+        const nextStartDate = new Date(userCycles[i + 1].dateStart).getTime();
+        totalCycleDays += (nextStartDate - endDate) / (1000 * 3600 * 24);
+    }
+    const avgCycleDays = totalCycleDays / (userCycles.length - 1);
 
-    const avgPeriodDays = userCycles.reduce((acc, cycle) => acc + (new Date(cycle.dateEnd).getTime() - new Date(cycle.dateStart).getTime()) / (1000 * 3600 * 24), 0) / userCycles.length;
+    // Calculate the average period days (dateEnd - dateStart for each cycle)
+    const avgPeriodDays = userCycles.reduce((acc, cycle) => {
+        const periodDays = (new Date(cycle.dateEnd).getTime() - new Date(cycle.dateStart).getTime()) / (1000 * 3600 * 24);
+        return acc + periodDays;
+    }, 0) / userCycles.length;
 
     const userCycleInfoIndex = userCycleInfos.findIndex(info => info.userId === userId);
 
     if (userCycleInfoIndex !== -1) {
-        userCycleInfos[userCycleInfoIndex].avgCycleDays = avgCycleDays;
-        userCycleInfos[userCycleInfoIndex].avgPeriodDays = avgPeriodDays;
+        userCycleInfos[userCycleInfoIndex].avgCycleDays = Math.floor(avgCycleDays);
+        userCycleInfos[userCycleInfoIndex].avgPeriodDays = Math.floor(avgPeriodDays);
 
         fs.writeFileSync(userCycleInfoFilePath, JSON.stringify(userCycleInfos, null, 2));
     }

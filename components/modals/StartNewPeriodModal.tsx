@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { parseDate } from '@internationalized/date';
-import dayjs from 'dayjs';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/modal";
+import React, { useState } from "react";
+import dayjs from "dayjs";
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/modal";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 
@@ -17,7 +16,7 @@ const StartNewPeriodModal = ({ isOpen, onClose, onStartNewPeriod }: StartNewPeri
 
     const handleStart = () => {
         if (!startDate) {
-            setError('Please select a start date.');
+            setError("Please select a start date.");
             return;
         }
         onStartNewPeriod(new Date(startDate));
@@ -26,24 +25,30 @@ const StartNewPeriodModal = ({ isOpen, onClose, onStartNewPeriod }: StartNewPeri
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalHeader>
-                <h3>Start New Period</h3>
-            </ModalHeader>
-            <ModalBody>
-                <Input
-                    type="date"
-                    label="Start Date"
-                    value={startDate || ''}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    fullWidth
-                    min={dayjs().subtract(1, 'year').format('YYYY-MM-DD')}
-                    max={dayjs().format('YYYY-MM-DD')}
-                />
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-            </ModalBody>
-            <ModalFooter>
-                <Button onClick={handleStart}>Start Period</Button>
-            </ModalFooter>
+            <ModalContent>
+                {(onCLose) => (
+                    <>
+                        <ModalHeader>
+                            <h3>Start New Period</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <Input
+                                type="date"
+                                label="Start Date"
+                                value={startDate || ""}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                fullWidth
+                                min={dayjs().subtract(1, "year").format("YYYY-MM-DD")}
+                                max={dayjs().format("YYYY-MM-DD")}
+                            />
+                            {error && <p style={{ color: "red" }}>{error}</p>}
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button onClick={handleStart}>Start Period</Button>
+                        </ModalFooter>
+                    </>
+                )}
+            </ModalContent>
         </Modal>
     );
 };

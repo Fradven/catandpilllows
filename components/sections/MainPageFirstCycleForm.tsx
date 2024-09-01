@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { DateValue } from "@nextui-org/date-input";
 import { Button } from "@nextui-org/button";
 import { API_ENDPOINTS, MESSAGES } from "@/components/utils/contantes";
-import { parseDate } from "@internationalized/date";
+import { parseDate, CalendarDate } from "@internationalized/date";
 import { DatePicker } from "@nextui-org/date-picker";
 
 interface Props {
@@ -11,12 +10,12 @@ interface Props {
 }
 
 const MainPageFirstCycleForm = ({ userId, cycleHandler }: Props) => {
-    const [dateStart, setDateStart] = useState<DateValue | null>(null);
-    const [dateEnd, setDateEnd] = useState<DateValue | null>(null);
+    const [dateStart, setDateStart] = useState<CalendarDate | null>(null);
+    const [dateEnd, setDateEnd] = useState<CalendarDate | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (dateStart && dateEnd && dateStart.toDate().getTime() > dateEnd.toDate().getTime()) {
+        if (dateStart && dateEnd && dateStart.compare(dateEnd) > 0) {
             setError("Start date cannot be later than the end date.");
         } else {
             setError(null);
@@ -29,8 +28,8 @@ const MainPageFirstCycleForm = ({ userId, cycleHandler }: Props) => {
             return;
         }
 
-        const start = dateStart.toDate();
-        const end = dateEnd.toDate();
+        const start = dateStart.toDate('UTC');
+        const end = dateEnd.toDate('UTC');
 
         try {
             const response = await fetch(API_ENDPOINTS.ADD_CYCLE, {
@@ -46,7 +45,7 @@ const MainPageFirstCycleForm = ({ userId, cycleHandler }: Props) => {
             if (response.ok) {
                 const newCycle = await response.json();
                 cycleHandler(newCycle.cycle);
-                setError(null)
+                setError(null);
             } else {
                 setError(MESSAGES.ADD_CYCLE_FAILED);
             }
@@ -65,7 +64,7 @@ const MainPageFirstCycleForm = ({ userId, cycleHandler }: Props) => {
                 <DatePicker
                     label="Start Date"
                     value={dateStart}
-                    onChange={(value) => setDateStart(value)}
+                    onChange={(value) => setDateStart(value as CalendarDate)}
                     maxValue={dateEnd || today}
                     variant="underlined"
                     isRequired
@@ -75,11 +74,10 @@ const MainPageFirstCycleForm = ({ userId, cycleHandler }: Props) => {
                 <DatePicker
                     label="End Date"
                     value={dateEnd}
-                    onChange={(value) => setDateEnd(value)}
+                    onChange={(value) => setDateEnd(value as CalendarDate)}
                     maxValue={today}
                     minValue={dateStart || undefined}
                     variant="underlined"
-                    isRequired
                     className="w-full"
                 />
 
@@ -87,7 +85,7 @@ const MainPageFirstCycleForm = ({ userId, cycleHandler }: Props) => {
 
                 <Button
                     onClick={handleAddCycle}
-                    disabled={!!error || !dateStart || !dateEnd}
+                    disabled={!!error || !dateStart}
                     className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
                 >
                     Add Cycle

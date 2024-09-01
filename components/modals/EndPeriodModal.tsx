@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/modal";
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import dayjs from 'dayjs';
@@ -31,24 +31,31 @@ const EndPeriodModal = ({ isOpen, onClose, onEndPeriod, startDate }: EndPeriodMo
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalHeader>
-                <h3>End Current Period</h3>
-            </ModalHeader>
-            <ModalBody>
-                <Input
-                    type="date"
-                    label="End Date"
-                    value={endDate || ''}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    fullWidth
-                    min={dayjs(startDate).format('YYYY-MM-DD')}
-                    max={dayjs().format('YYYY-MM-DD')}
-                />
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-            </ModalBody>
-            <ModalFooter>
-                <Button onClick={handleEnd}>End Period</Button>
-            </ModalFooter>
+            <ModalContent>
+                {(onClose) => (
+                    <>
+                        <ModalHeader>
+                            <h3>End Current Period</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <Input
+                                type="date"
+                                label="End Date"
+                                value={endDate || ''}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                fullWidth
+                                min={dayjs(startDate).format('YYYY-MM-DD')}
+                                max={dayjs().format('YYYY-MM-DD')}
+                            />
+                            {error && <p style={{ color: 'red' }}>{error}</p>}
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button onClick={handleEnd}>End Period</Button>
+                        </ModalFooter>
+                    </>
+                )}
+            </ModalContent>
+
         </Modal>
     );
 };
