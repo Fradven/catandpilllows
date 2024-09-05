@@ -1,0 +1,22 @@
+[
+  {
+    "id": "fe1221cee23eb1ecb665e81969f1c819",
+    "email": "a@a.com",
+    "password": "$2b$10$YBpDbPe290njF2sKv6sAFOlRqfkWgBeiq.eyPF/bsQTDSZzHlgbay"
+  },
+  {
+    "id": "89f416f9ce4f4c10efd4a2dd4f097710",
+    "email": "test@test.be",
+    "password": "$2b$10$XyHMnK/z0Bb09M3ibUM/A.0pNT7a6pRFuYy9EIInYyvaF6IGoIG/a"
+  },
+  {
+    "id": "80379c7ac33a37c0ae1f0631267fde72",
+    "email": "q@q.q",
+    "password": "$2b$10$Hze72ARzhIdoNzNzpIltOeRxoFSGtcp3S9bcKvtI51zZNnqtbmQm2"
+  },
+  {
+    "id": "394b1e9f17ba20ab5194563b34e43bc7",
+    "email": "z@z.z",
+    "password": "$2b$10$YsISFcqmabTZhaQm3VYL6.eh6b7gxkqgddd.2OmQ6vOXa4Z9XINoe"
+  }
+]

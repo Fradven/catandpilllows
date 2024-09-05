@@ -1,40 +1,34 @@
-/* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import SignUp from "@/components/forms/SignUp";
 import Login from "@/components/forms/Login";
+import { Tab, Tabs } from "@nextui-org/tabs";
 
-const LoginForm = () => {
-  const [activeTab, setActiveTab] = useState('login');
+const LoginAndSignUpForm = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
+    const [activeTab, setActiveTab] = useState("login");
 
-  return (
-    <div className="flex justify-center w-full h-screen bg-[#C3A298]">
-      <div className="w-full p-14 rounded-md">
-        <div className="flex justify-between mb-5">
-          <button
-            onClick={() => setActiveTab('login')}
-            className={`flex-1 py-2 cursor-pointer ${
-              activeTab === 'login' ? 'bg-catDarkBurgundy border-b-2 border-gray-800 rounded-t-md' : 'bg-[#AF8D86]'
-            }`}
-          >
-            Login
-          </button>
-          <button
-            onClick={() => setActiveTab('signup')}
-            className={`flex-1 py-2 cursor-pointer ${
-              activeTab === 'signup' ? 'bg-catDarkBurgundy border-b-2 border-gray-800 rounded-t-md' : 'bg-[#AF8D86]'
-            }`}
-          >
-            Sign Up
-          </button>
+    const handleSignUpSuccess = () => {
+        setActiveTab("login");
+        alert("Sign up successful! Please log in.");
+    };
+
+    return (
+        <div className="flex flex-col w-full h-screen bg-[#C3A298]">
+            <div className="p-8">
+                <Tabs
+                    aria-label="authentication forms"
+                    selectedKey={activeTab}
+                    onSelectionChange={(key) => setActiveTab(key as string)}
+                >
+                    <Tab key={"login"} title={"Login"}>
+                        <Login onLoginSuccess={onLoginSuccess} />
+                    </Tab>
+                    <Tab key={"signUp"} title={"Sign Up"}>
+                        <SignUp onSignUpSuccess={handleSignUpSuccess} />
+                    </Tab>
+                </Tabs>
+            </div>
         </div>
-        {activeTab === 'login' ? (
-          <Login />
-        ) : (
-          <SignUp />
-        )}
-      </div>
-    </div>
-  );
+    );
 };
 
-export default LoginForm;
+export default LoginAndSignUpForm;
