@@ -9,6 +9,7 @@ import { UserCycleService } from "@/services/userCycleService";
 import { SessionService } from "@/services/sessionService";
 import EndPeriodModal from "@/components/modals/EndPeriodModal";
 import Cycle from "@/components/classes/Cycle";
+import UserCycleInfos from "@/components/classes/UserCycleInfos";
 
 /**
  * MainPage component serves as the main entry point for the menstrual cycle tracking application.
@@ -43,8 +44,8 @@ const MainPage = () => {
     const [userId, setUserId] = useState<string | null>();
     const [cycles, setCycles] = useState<Cycle[]>([]);
     const [loading, setLoading] = useState(true);
-    const [trackingCycle, setTrackingCycle] = useState<any | null>(null);
-    const [userCycleInfo, setUserCycleInfo] = useState<any | null>(null);
+    const [trackingCycle, setTrackingCycle] = useState<Cycle | null>(null);
+    const [userCycleInfo, setUserCycleInfo] = useState<UserCycleInfos | null>(null);
     const [isEndModalOpen, setIsEndModalOpen] = useState(false);
 
     useEffect(() => {

@@ -22,7 +22,7 @@ const Navbar = () => {
         { href: "/", label: "Home", icon: <FaHome /> },
         { href: "/about", label: "About Us", icon: <FaInfoCircle /> },
         { href: "/tracking", label: "Tracking", icon: <FaChartLine /> },
-        { href: "/previous-months", label: "Previous Months", icon: <FaCalendarAlt /> }
+        { href: "/previous-months", label: "Add Previous Cycles", icon: <FaCalendarAlt /> }
     ];
 
     return (
