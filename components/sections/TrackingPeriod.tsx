@@ -23,8 +23,8 @@ const TrackingPeriod = ({ cycle, userCycleInfo, onEndPeriod }: TrackingPeriodPro
 
                     <div className="w-full bg-gray-200 rounded-full h-4">
                         <div
-                            className="bg-indigo-600 h-4 rounded-full"
-                            style={{ width: `${(daysPassed / userCycleInfo.avgPeriodDays) * 100}%` }}
+                            className={`bg-indigo-600 h-4 rounded-full`}
+                            style={{ width: daysPassed >= userCycleInfo.avgPeriodDays ? "100%" : `${(daysPassed / userCycleInfo.avgPeriodDays) * 100}%` }}
                         />
                     </div>
                 </div>
