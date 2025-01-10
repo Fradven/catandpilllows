@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/button";
 import { API_ENDPOINTS, MESSAGES } from "@/components/utils/contantes";
-import { parseDate, CalendarDate } from "@internationalized/date";
+import { CalendarDate, parseDate } from "@internationalized/date";
 import { DatePicker } from "@nextui-org/date-picker";
 
 interface Props {
@@ -23,13 +23,13 @@ const MainPageFirstCycleForm = ({ userId, cycleHandler }: Props) => {
     }, [dateStart, dateEnd]);
 
     const handleAddCycle = async () => {
-        if (!userId || !dateStart || !dateEnd) {
-            setError("Please fill out both dates");
+        if (!userId || !dateStart) {
+            setError("Please enter a start date");
             return;
         }
 
-        const start = dateStart.toDate('UTC');
-        const end = dateEnd.toDate('UTC');
+        const start = dateStart.toDate("UTC");
+        const end = dateEnd ? dateEnd.toDate("UTC") : null;
 
         try {
             const response = await fetch(API_ENDPOINTS.ADD_CYCLE, {
@@ -38,8 +38,8 @@ const MainPageFirstCycleForm = ({ userId, cycleHandler }: Props) => {
                 body: JSON.stringify({
                     userId,
                     dateStart: start.toISOString(),
-                    dateEnd: end.toISOString(),
-                }),
+                    ...(end && { dateEnd: end.toISOString() })
+                })
             });
 
             if (response.ok) {
@@ -90,8 +90,6 @@ const MainPageFirstCycleForm = ({ userId, cycleHandler }: Props) => {
                 >
                     Add Cycle
                 </Button>
-
-                {error && <p className="text-red-500 mt-2">{error}</p>}
             </div>
         </div>
     );

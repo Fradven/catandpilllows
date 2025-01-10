@@ -57,6 +57,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         userCycleInfos[userCycleInfoIndex].avgCycleDays = Math.floor(avgCycleDays);
         userCycleInfos[userCycleInfoIndex].avgPeriodDays = Math.floor(avgPeriodDays);
 
+        if (userCycleInfos[userCycleInfoIndex].avgCycleDays === null || isNaN(userCycleInfos[userCycleInfoIndex].avgCycleDays)) {
+            userCycleInfos[userCycleInfoIndex].avgCycleDays = 28;
+        }
+
         fs.writeFileSync(userCycleInfoFilePath, JSON.stringify(userCycleInfos, null, 2));
     }
 

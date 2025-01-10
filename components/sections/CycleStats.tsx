@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { UserCycleService } from '@/services/userCycleService';
-import { Spinner } from '@nextui-org/spinner';
-import dayjs from 'dayjs';
+import { useEffect, useState } from "react";
+import { UserCycleService } from "@/services/userCycleService";
+import { Spinner } from "@nextui-org/spinner";
+import dayjs from "dayjs";
 import { Button } from "@nextui-org/button";
 import StartNewPeriodModal from "@/components/modals/StartNewPeriodModal";
+import Cycle from "@/components/classes/Cycle";
 
 interface Props {
     userId: string;
@@ -36,17 +37,21 @@ const CycleStats = ({ userId, onCycleCreated }: Props) => {
                 const cycles = await response.json();
 
                 if (cycles.length > 0) {
-                    const latest = cycles[cycles.length - 1];
+                    const latest = cycles.reduce((closest: any, cycle: Cycle) => {
+                        const currentDiff = Math.abs(dayjs().diff(dayjs(cycle.dateStart)));
+                        const closestDiff = Math.abs(dayjs().diff(dayjs(closest.dateStart)));
+                        return currentDiff < closestDiff ? cycle : closest;
+                    }, cycles[0]);
                     setLatestCycle(latest);
 
                     if (latest.dateEnd) {
                         const endDate = dayjs(latest.dateEnd);
-                        const daysSinceEnd = dayjs().diff(endDate, 'day');
+                        const daysSinceEnd = dayjs().diff(endDate, "day");
                         setDaysPassed(daysSinceEnd);
                     }
                 }
             } catch (error) {
-                console.error('Failed to fetch cycle data:', error);
+                console.error("Failed to fetch cycle data:", error);
             } finally {
                 setLoading(false);
             }
@@ -76,7 +81,7 @@ const CycleStats = ({ userId, onCycleCreated }: Props) => {
             <div className="flex flex-col items-center space-y-6 p-6 rounded-md shadow-lg w-full max-w-lg mx-auto">
                 <div className="text-center">
                     <p className="text-lg">Last period ended on: <span className="font-bold">{dayjs(latestCycle.dateEnd).format('MMMM D, YYYY')}</span></p>
-                    <p className="text-4xl font-bold my-4">{daysLeft} days left</p>
+                    <p className={`text-4xl font-bold my-4 ${daysLeft <= 0 && "text-danger"}`}>{daysLeft >= 0 ? `${ daysLeft } days left` : `${Math.abs(daysLeft)} days late`}</p>
 
                     <div className="w-full bg-gray-200 rounded-full h-4">
                         <div

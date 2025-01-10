@@ -1,4 +1,4 @@
-import UserInterface from "@/interfaces/UserInterface";
+import UserInterface from "@/components/interfaces/UserInterface";
 import { randomBytes } from 'crypto';
 
 export class User implements UserInterface{
