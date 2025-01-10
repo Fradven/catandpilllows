@@ -20,9 +20,9 @@ const Navbar = () => {
 
     const navLinks = [
         { href: "/", label: "Home", icon: <FaHome /> },
-        { href: "/about", label: "About Us", icon: <FaInfoCircle /> },
+        { href: "/previous-months", label: "Add Previous Cycles", icon: <FaCalendarAlt /> },
         { href: "/tracking", label: "Tracking", icon: <FaChartLine /> },
-        { href: "/previous-months", label: "Add Previous Cycles", icon: <FaCalendarAlt /> }
+        { href: "/about", label: "About Us", icon: <FaInfoCircle /> }
     ];
 
     return (
