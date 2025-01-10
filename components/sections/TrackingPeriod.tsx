@@ -1,5 +1,6 @@
 import { Button } from "@nextui-org/button";
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from "dayjs";
+import { useEffect, useState } from "react";
 
 interface TrackingPeriodProps {
     cycle: any;
@@ -19,7 +20,7 @@ const TrackingPeriod = ({ cycle, userCycleInfo, onEndPeriod }: TrackingPeriodPro
 
                 <div className="text-center">
                     <p className="text-lg">Period started on: <span className="font-bold">{startDate.format('MMMM D, YYYY')}</span></p>
-                    <p className="text-4xl font-bold my-4">{daysLeft} days left</p>
+                    <p className={`text-4xl font-bold my-4 ${daysLeft <= 0 && "text-danger"}`}>{daysLeft >= 0 ? `${ daysLeft } days left` : `${Math.abs(daysLeft)} days late`}</p>
 
                     <div className="w-full bg-gray-200 rounded-full h-4">
                         <div
@@ -34,6 +35,7 @@ const TrackingPeriod = ({ cycle, userCycleInfo, onEndPeriod }: TrackingPeriodPro
                         <p className="text-lg">Avg Cycle Days</p>
                         <p className="text-xl font-bold">{userCycleInfo.avgCycleDays}</p>
                     </div>
+
                     <div className="text-center">
                         <p className="text-lg">Avg Period Days</p>
                         <p className="text-xl font-bold">{userCycleInfo.avgPeriodDays}</p>

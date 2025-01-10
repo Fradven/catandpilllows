@@ -76,7 +76,7 @@ const CycleStats = ({ userId, onCycleCreated }: Props) => {
             <div className="flex flex-col items-center space-y-6 p-6 rounded-md shadow-lg w-full max-w-lg mx-auto">
                 <div className="text-center">
                     <p className="text-lg">Last period ended on: <span className="font-bold">{dayjs(latestCycle.dateEnd).format('MMMM D, YYYY')}</span></p>
-                    <p className="text-4xl font-bold my-4">{daysLeft} days left</p>
+                    <p className={`text-4xl font-bold my-4 ${daysLeft <= 0 && "text-danger"}`}>{daysLeft >= 0 ? `${ daysLeft } days left` : `${Math.abs(daysLeft)} days late`}</p>
 
                     <div className="w-full bg-gray-200 rounded-full h-4">
                         <div
